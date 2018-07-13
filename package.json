@@ -1,27 +1,61 @@
 {
-  "name": "shopping-card-nodejs",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js --exec babel-node",
-    "build": "babel -d dist"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "bcrypt": "^3.0.0",
-    "body-parser": "^1.18.3",
-    "express": "^4.16.3",
-    "jsonwebtoken": "^8.3.0",
-    "mongoose": "^5.2.1",
-    "morgan": "^1.9.0",
-    "multer": "^1.3.1"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1"
-  }
+    "name": "shopping-card-nodejs",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon server.js --exec babel-node",
+        "build": "babel -d dist"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "bcrypt": "^3.0.0",
+        "body-parser": "^1.18.3",
+        "express": "^4.16.3",
+        "jsonwebtoken": "^8.3.0",
+        "mongoose": "^5.2.1",
+        "morgan": "^1.9.0",
+        "multer": "^1.3.1"
+    },
+    "devDependencies": {
+        "babel-cli": "^6.26.0",
+        "babel-preset-es2015": "^6.24.1",
+        "babel-preset-stage-2": "^6.24.1",
+        "eslint": "^5.1.0",
+        "eslint-config-airbnb-base": "^13.0.0",
+        "eslint-plugin-import": "^2.13.0"
+    },
+    "eslintConfig": {
+        "extends": "airbnb-base",
+        "env": {
+            "es6": true,
+            "browser": true
+        },
+        "rules": {
+            "brace-style": [
+                "error",
+                "1tbs"
+            ],
+            "comma-dangle": [
+                "error",
+                "never"
+            ],
+            "no-unused-vars": [
+                "warn"
+            ],
+            "no-var": [
+                "off"
+            ],
+            "one-var": [
+                "off"
+            ],
+            "import/named": 0,
+            "func-names": 0,
+            "consistent-return": 0,
+            "no-underscore-dangle": 0,
+            "linebreak-style": 0
+        }
+    }
 }
