@@ -7,22 +7,21 @@ exports.create = (req, res) => {
     email: req.body.email,
     password: req.body.password
   });
-  user.save().then(doc => {
-    res.send(doc);
-  }).catch(err => res.status(500).send(err));
+  user.save()
+    .then(doc => res.send(doc))
+    .catch(err => res.status(500).send(err));
 };
 
 exports.login = (req, res) => {
-  User.findByCredenticals(req.body.email, req.body.password).then(doc => {
+  User.findByCredenticals(req.body.email, req.body.password).then((doc) => {
     const token = jwt.sign({
-        email: doc.email,
-        id: doc._id
-      }, 
-      process.env.JWT_KEY,
-      {
-        expiresIn: '1h'
-      } 
-    );
-    res.send({ token: token });
-  }).catch(err => res.status(401).send(err))
+      email: doc.email,
+      id: doc._id
+    },
+    process.env.JWT_KEY,
+    {
+      expiresIn: '1h'
+    });
+    res.send({ token });
+  }).catch(err => res.status(401).send(err));
 };

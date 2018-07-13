@@ -7,26 +7,26 @@ import productController from './product-controller';
 const router = express.Router();
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: (req, file, cb) => {
     cb(null, 'uploads');
   },
-  filename: function (req, file, cb) {
+  filename: (req, file, cb) => {
     cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname);
   }
 });
 const fileFilter = (req, file, cb) => {
-  if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
     cb(null, true);
   } else {
     cb(null, false);
   }
 };
-const upload = multer({ 
-  storage: storage, 
+const upload = multer({
+  storage,
   limits: {
-    fileSize: 1024 * 1024 * 5 
-  }, 
-  fileFilter: fileFilter
+    fileSize: 1024 * 1024 * 5
+  },
+  fileFilter
 });
 
 router.get('/', productController.fetchAll);
