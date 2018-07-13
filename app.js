@@ -1,12 +1,13 @@
-const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
-const morgan = require('morgan');
-const mongoose = require('mongoose');
+import express from 'express';
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+import morgan from 'morgan';
 
-const { productRouters } = require('./components/products');
-const { orderRouters } = require('./components/orders');
-const { userRouters } = require('./components/users');
+import { productRouters } from './components/products';
+import { orderRouters } from './components/orders';
+import { userRouters } from './components/users';
+
+const app = express();
 
 const DB_NAME = process.env.DB_NAME;
 mongoose.connect(`mongodb://localhost:27017/${DB_NAME}`, { useNewUrlParser: true });

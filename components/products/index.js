@@ -1,5 +1,5 @@
-const Product = require('./product-model');
-const productRouters = require('./product-routers');
+import Product from './product-model';
+import productRouters from './product-routers';
 
 module.exports= {
   Product,

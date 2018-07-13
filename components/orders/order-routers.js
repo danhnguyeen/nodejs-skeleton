@@ -1,7 +1,9 @@
-const express = require('express');
+import express from 'express';
+
+import orderController from './order-controller';
+
 const router = express.Router();
 
-const orderController = require('./order-controller');
 
 router.get('/', orderController.fetchAll);
 
