@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
-const User = require('./user-model');
+import User from './user-model';
 
 exports.create = (req, res) => {
   const user = new User({

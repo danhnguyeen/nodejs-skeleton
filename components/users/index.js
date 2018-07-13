@@ -1,5 +1,5 @@
-const User = require('./user-model');
-const userRouters = require('./user-routers');
+import User from './user-model';
+import userRouters from './user-routers';
 
 module.exports = {
   User,

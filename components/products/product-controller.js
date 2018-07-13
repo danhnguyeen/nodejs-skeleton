@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const Product = require('./product-model');
+import Product from './product-model';
 
 exports.fetchAll = (req, res) => {
   Product.find().select('name price _id').then(docs => {

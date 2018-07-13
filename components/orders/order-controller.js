@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const Order = require('./order-model');
+import Order from './order-model';
 
 exports.fetchAll = (req, res) => {
   Order.find().populate('product', 'name').select('_id product quantity').then(docs => {
