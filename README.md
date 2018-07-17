@@ -1,4 +1,4 @@
-# Skeleton - Node.js RESTful API [![Build Status](https://travis-ci.org/vitorbritto/node-skeleton.svg)](https://travis-ci.org/vitorbritto/node-skeleton)
+# Skeleton - Node.js RESTful API [![Build Status](https://travis-ci.org/vitorbritto/node-skeleton.svg)](https://github.com/danhnguyeen/nodejs-skeleton)
 
 # Getting started
 
