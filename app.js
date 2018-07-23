@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import { productRouters } from './components/products';
 import { orderRouters } from './components/orders';
 import { userRouters } from './components/users';
+import { pageRouters } from './components/pages';
 
 const app = express();
 
@@ -14,7 +15,9 @@ mongoose.connect(`mongodb://localhost:27017/${process.env.DB_NAME}`, { useNewUrl
 /* public uploads images */
 app.use('/uploads', express.static(`${__dirname}/uploads`));
 /* HTTP request logger middleware */
+// if (app.get('env') === 'development') {
 app.use(morgan('dev'));
+// }
 // parse application/json
 app.use(bodyParser.json());
 /* Handling CORS */
@@ -35,6 +38,7 @@ app.use((req, res, next) => {
 app.use('/products', productRouters);
 app.use('/orders', orderRouters);
 app.use('/users', userRouters);
+app.use('/pages', pageRouters);
 
 /* Handle Error Messages */
 app.use((req, res, next) => {

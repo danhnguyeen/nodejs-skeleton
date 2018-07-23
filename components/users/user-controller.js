@@ -20,8 +20,9 @@ exports.login = (req, res) => {
     },
     process.env.JWT_KEY,
     {
-      expiresIn: '1h'
+      expiresIn: '1d'
     });
-    res.send({ token });
+    const user = jwt.decode(token, process.env.JWT_KEY);
+    res.send({ token, user });
   }).catch(err => res.status(401).send(err));
 };

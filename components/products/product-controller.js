@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import Product from './product-model';
 
 exports.fetchAll = (req, res) => {
-  Product.find().select('name price _id')
+  Product.find().sort([['_id', 'descending']])
     .then(docs => res.send(docs))
     .catch(err => res.status(500).send(err));
 };
@@ -11,8 +11,10 @@ exports.fetchAll = (req, res) => {
 exports.create = (req, res) => {
   const product = new Product({
     _id: mongoose.Types.ObjectId(),
+    code: req.body.code,
     name: req.body.name,
     price: req.body.price,
+    description: req.body.description,
     image: req.file.filename
   });
   product.save()
