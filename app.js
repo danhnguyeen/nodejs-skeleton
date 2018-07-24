@@ -7,6 +7,7 @@ import { productRouters } from './components/products';
 import { orderRouters } from './components/orders';
 import { userRouters } from './components/users';
 import { pageRouters } from './components/pages';
+import { postRouters } from './components/posts';
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use('/products', productRouters);
 app.use('/orders', orderRouters);
 app.use('/users', userRouters);
 app.use('/pages', pageRouters);
+app.use('/posts', postRouters);
 
 /* Handle Error Messages */
 app.use((req, res, next) => {
