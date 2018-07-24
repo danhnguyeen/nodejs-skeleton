@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.post('/', userController.create);
 
+router.patch('/:id', userController.update);
+
 router.post('/login', userController.login);
 
 module.exports = router;

@@ -3,11 +3,11 @@ import mongoose from 'mongoose';
 const productSchema = mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: [true, 'Product name is required field']
   },
   code: {
     type: String,
-    required: true,
+    required: [true, 'Product code is required field'],
     unique: true
   },
   price: {
@@ -21,10 +21,7 @@ const productSchema = mongoose.Schema({
 
 productSchema.post('save', (error, doc, next) => {
   if (error && error.name === 'MongoError' && error.code === 11000) {
-    next({
-      message: 'Product code is already exist',
-      code: 500
-    });
+    next({ message: 'Product code is already exist' });
   } else {
     next(error);
   }
