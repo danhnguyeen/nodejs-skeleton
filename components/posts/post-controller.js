@@ -32,6 +32,19 @@ exports.createPostComment = async (req, res) => {
   }
 };
 
+exports.updatePostComment = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postId);
+    const comment = await post.comments.id(req.params.commentId);
+    comment.content = req.body.content;
+    await post.save();
+    res.send(post);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+
 exports.removePostComment = async (req, res) => {
   try {
     const post = await Post.findById(req.params.postId);
