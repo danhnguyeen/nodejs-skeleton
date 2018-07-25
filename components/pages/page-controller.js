@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import Page from './page-model';
 
 exports.fetchAll = (req, res) => {
@@ -7,10 +9,7 @@ exports.fetchAll = (req, res) => {
 };
 
 exports.create = (req, res) => {
-  const page = new Page({
-    title: req.body.title,
-    content: req.body.content
-  });
+  const page = new Page(_.pick(req.body, ['title', 'content']));
   page.save()
     .then(doc => res.send(doc))
     .catch(err => res.status(500).send(err));
