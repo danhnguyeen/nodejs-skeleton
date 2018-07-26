@@ -3,53 +3,39 @@ import _ from 'lodash';
 import Post from './post-model';
 import { PostComment } from '../post_comments';
 
-exports.fetchAll = (req, res) => {
-  Post.find()
-    .then(docs => res.send(docs))
-    .catch(err => res.status(500).send(err));
+exports.fetchAll = async (req, res) => {
+  const docs = await Post.find();
+  res.send(docs);
 };
 
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   const post = new Post({ ..._.pick(req.body, ['title', 'conent']), user: req.user.id });
-  post.save()
-    .then(doc => res.send(doc))
-    .catch(err => res.status(500).send(err));
+  const doc = await post.save();
+  res.send(doc);
 };
 
 exports.createPostComment = async (req, res) => {
-  try {
-    const post = await Post.findById(req.params.postId);
-    post.comments.push(new PostComment({
-      user: req.user.id,
-      content: req.body.content
-    }));
-    await post.save();
-    res.send();
-  } catch (err) {
-    res.status(500).send(err);
-  }
+  const post = await Post.findById(req.params.postId);
+  post.comments.push(new PostComment({
+    user: req.user.id,
+    content: req.body.content
+  }));
+  await post.save();
+  res.send();
 };
 
 exports.updatePostComment = async (req, res) => {
-  try {
-    const post = await Post.findById(req.params.postId);
-    const comment = await post.comments.id(req.params.commentId);
-    comment.content = req.body.content;
-    await post.save();
-    res.send(post);
-  } catch (err) {
-    res.status(500).send(err);
-  }
+  const post = await Post.findById(req.params.postId);
+  const comment = await post.comments.id(req.params.commentId);
+  comment.content = req.body.content;
+  await post.save();
+  res.send(post);
 };
 
 
 exports.removePostComment = async (req, res) => {
-  try {
-    const post = await Post.findById(req.params.postId);
-    await post.comments.id(req.params.commentId).remove();
-    await post.save();
-    res.send(post);
-  } catch (err) {
-    res.status(500).send(err);
-  }
+  const post = await Post.findById(req.params.postId);
+  await post.comments.id(req.params.commentId).remove();
+  await post.save();
+  res.send(post);
 };

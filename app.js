@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
+import 'express-async-errors';
 
 import { productRouters } from './components/products';
 import { orderRouters } from './components/orders';
@@ -48,11 +49,23 @@ app.use((req, res, next) => {
   err.status = 404;
   next(err);
 });
-app.use((err, req, res) => {
-  res.status(err.status || 500).send({
-    message: err.message,
-    status: err.status
-  });
+// app.use((err, req, res) => {
+//   res.status(err.status || 500).send({
+//     message: err.message,
+//     status: err.status
+//   });
+// });
+app.use((err, req, res, next) => {
+  switch (err.message) {
+    case 'Not found':
+      res.status(404);
+      break;
+    case 'Access deny':
+      res.status(401);
+      break;
+    default: res.status(500);
+  }
+  res.send({ message: err.message || 'Some thing went wrong', error: err });
+  // next(err);
 });
-
 module.exports = app;
