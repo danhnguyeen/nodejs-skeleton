@@ -25,11 +25,11 @@ exports.create = async (req, res) => {
 
 exports.update = async (req, res) => {
   /* { new: true } return updated doc */
-  const doc = await Product.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
+  const doc = await Product.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
   res.send(doc);
 };
 
 exports.delete = async (req, res) => {
-  const result = await Product.remove({ _id: req.params.id })
+  const result = await Product.remove({ _id: req.params.id });
   res.send(result);
 };
