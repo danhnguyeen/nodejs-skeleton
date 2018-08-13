@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const pageSchema = mongoose.Schema({
   title: {
     type: String,
-    required: true,
+    required: [true, 'Title is required field'],
     trim: true,
     minlength: 1
   },

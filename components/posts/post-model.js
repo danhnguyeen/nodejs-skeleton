@@ -5,7 +5,7 @@ import { postCommentSchema } from '../post_comments';
 const postSchema = mongoose.Schema({
   title: {
     type: String,
-    required: true
+    required: [true, 'Title is required field']
   },
   content: String,
   user: {

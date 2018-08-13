@@ -4,14 +4,34 @@ import bcrypt from 'bcrypt';
 const userSchema = mongoose.Schema({
   email: {
     type: String,
-    required: true,
+    required: [true, 'Email is required field'],
     trim: true,
     unique: true,
-    match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+    validate: [{
+      validator: function (v) {
+        return /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(v);
+      },
+      message: '{VALUE} is not a valid email'
+    }]
   },
   password: {
     type: String,
     required: true
+  }
+});
+
+// userSchema.path('email').validate(async function (value, res) {
+//   const isAvailable = await mongoose.model('User', userSchema).findOne({ email: value });
+//   if (isAvailable) {
+//     res(false);
+//   }
+// }, 'This email address is already registered');
+
+userSchema.post('save', (error, doc, next) => {
+  if (error && error.name === 'MongoError' && error.code === 11000) {
+    next({ message: 'Email is already exist' });
+  } else {
+    next(error);
   }
 });
 
@@ -26,6 +46,7 @@ userSchema.pre('save', async function (next) {
     next();
   }
 });
+
 
 userSchema.statics.findByCredenticals = function (email, password) {
   const User = this;
