@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import _ from 'lodash';
 
 import Product from './product-model';
 
@@ -9,14 +9,9 @@ exports.fetchAll = (req, res) => {
 };
 
 exports.create = (req, res) => {
-  const product = new Product({
-    _id: mongoose.Types.ObjectId(),
-    code: req.body.code,
-    name: req.body.name,
-    price: req.body.price,
-    description: req.body.description,
-    image: req.file.filename
-  });
+  const body = _.pick(req.body, ['code', 'name', 'price', 'description']);
+  body.image = req.file.filename;
+  const product = new Product(body);
   product.save()
     .then(doc => res.send(doc))
     .catch(err => res.status(500).send(err));

@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import Post from './post-model';
 import { PostComment } from '../post_comments';
 
@@ -8,11 +10,7 @@ exports.fetchAll = (req, res) => {
 };
 
 exports.create = (req, res) => {
-  const post = new Post({
-    title: req.body.title,
-    content: req.body.content,
-    user: req.user.id
-  });
+  const post = new Post({ ..._.pick(req.body, ['title', 'conent']), user: req.user.id });
   post.save()
     .then(doc => res.send(doc))
     .catch(err => res.status(500).send(err));

@@ -1,12 +1,10 @@
+import _ from 'lodash';
 import jwt from 'jsonwebtoken';
 
 import User from './user-model';
 
 exports.create = (req, res) => {
-  const user = new User({
-    email: req.body.email,
-    password: req.body.password
-  });
+  const user = new User(_.pick(req.body, ['email', 'password']));
   user.save()
     .then(doc => res.send(doc))
     .catch(err => res.status(500).send(err));
