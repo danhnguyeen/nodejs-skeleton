@@ -9,6 +9,6 @@ module.exports = async (req, res, next) => {
     req.token = token;
     next();
   } catch (err) {
-    res.status(401).send(err);
+    res.status(401).send('Access deny');
   }
 };

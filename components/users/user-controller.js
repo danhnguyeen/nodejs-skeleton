@@ -3,30 +3,32 @@ import jwt from 'jsonwebtoken';
 
 import User from './user-model';
 
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   const user = new User(_.pick(req.body, ['email', 'password']));
-  user.save()
-    .then(doc => res.send(doc))
-    .catch(err => res.status(500).send(err));
+  const doc = await user.save();
+  res.send(doc);
 };
 
-exports.update = (req, res) => {
-  User.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true, runValidators: true })
-    .then(result => res.send(result))
-    .catch(err => res.status(500).send(err));
+exports.update = async (req, res) => {
+  const doc = await User.findByIdAndUpdate(
+    req.params.id,
+    { $set: req.body },
+    { new: true, runValidators: true }
+  );
+  res.send(doc);
 };
 
-exports.login = (req, res) => {
-  User.findByCredenticals(req.body.email, req.body.password).then((doc) => {
-    const token = jwt.sign({
+exports.login = async (req, res) => {
+  const doc = await User.findByCredenticals(req.body.email, req.body.password);
+  const token = jwt.sign(
+    {
       email: doc.email,
       id: doc._id
     },
     process.env.JWT_KEY,
-    {
-      expiresIn: '1d'
-    });
-    const user = jwt.decode(token, process.env.JWT_KEY);
-    res.send({ token, user });
-  }).catch(err => res.status(401).send(err));
+    { expiresIn: '1d' }
+  );
+  const user = jwt.decode(token, process.env.JWT_KEY);
+  /* res.header('x-auth-token': token).send(user) */
+  res.send({ token, user });
 };

@@ -2,19 +2,17 @@ import mongoose from 'mongoose';
 
 import Order from './order-model';
 
-exports.fetchAll = (req, res) => {
-  Order.find().populate('product', 'name').select('_id product quantity')
-    .then(docs => res.send(docs))
-    .catch(err => res.status(500).send(err));
+exports.fetchAll = async (req, res) => {
+  const docs = await Order.find().populate('product', 'name').select('_id product quantity');
+  res.send(docs);
 };
 
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   const order = new Order({
     _id: mongoose.Types.ObjectId(),
     product: req.body.productId,
     quantity: 1
   });
-  order.save()
-    .then(doc => res.send(doc))
-    .catch(err => res.status(500).send(err));
+  const doc = await order.save();
+  res.send(doc);
 };
