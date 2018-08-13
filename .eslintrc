@@ -17,6 +17,8 @@
       "func-names": 0,
       "consistent-return": 0,
       "no-underscore-dangle": 0,
-      "linebreak-style": 0
+      "linebreak-style": 0,
+      "object-shorthand": 0,
+      "prefer-arrow-callback": 0
   }
 }

@@ -2,10 +2,13 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
+import 'express-async-errors';
 
 import { productRouters } from './components/products';
 import { orderRouters } from './components/orders';
 import { userRouters } from './components/users';
+import { pageRouters } from './components/pages';
+import { postRouters } from './components/posts';
 
 const app = express();
 
@@ -14,7 +17,9 @@ mongoose.connect(`mongodb://localhost:27017/${process.env.DB_NAME}`, { useNewUrl
 /* public uploads images */
 app.use('/uploads', express.static(`${__dirname}/uploads`));
 /* HTTP request logger middleware */
+// if (app.get('env') === 'development') {
 app.use(morgan('dev'));
+// }
 // parse application/json
 app.use(bodyParser.json());
 /* Handling CORS */
@@ -35,6 +40,8 @@ app.use((req, res, next) => {
 app.use('/products', productRouters);
 app.use('/orders', orderRouters);
 app.use('/users', userRouters);
+app.use('/pages', pageRouters);
+app.use('/posts', postRouters);
 
 /* Handle Error Messages */
 app.use((req, res, next) => {
@@ -42,11 +49,23 @@ app.use((req, res, next) => {
   err.status = 404;
   next(err);
 });
-app.use((err, req, res) => {
-  res.status(err.status || 500).send({
-    message: err.message,
-    status: err.status
-  });
+// app.use((err, req, res) => {
+//   res.status(err.status || 500).send({
+//     message: err.message,
+//     status: err.status
+//   });
+// });
+app.use((err, req, res, next) => {
+  switch (err.message) {
+    case 'Not found':
+      res.status(404);
+      break;
+    case 'Access deny':
+      res.status(401);
+      break;
+    default: res.status(500);
+  }
+  res.send({ message: err.message || 'Some thing went wrong', error: err });
+  // next(err);
 });
-
 module.exports = app;
