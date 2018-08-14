@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import jwt from 'jsonwebtoken';
+import config from 'config';
 
 import User from './user-model';
 
@@ -25,10 +26,10 @@ exports.login = async (req, res) => {
       email: doc.email,
       id: doc._id
     },
-    process.env.JWT_KEY,
+    config.get('JWT_KEY'),
     { expiresIn: '1d' }
   );
-  const user = jwt.decode(token, process.env.JWT_KEY);
+  const user = jwt.decode(token, config.get('JWT_KEY'));
   /* res.header('x-auth-token': token).send(user) */
   res.send({ token, user });
 };

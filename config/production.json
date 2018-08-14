@@ -1,0 +1,6 @@
+{
+  "name": "My App - Production",
+  "PORT": "3001",
+  "DB_NAME": "mongodb://localhost:27017/ShoppingCard",
+  "JWT_KEY": "abc@321"
+}

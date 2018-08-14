@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
+import config from 'config';
 import 'express-async-errors';
 
 import { productRouters } from './components/products';
@@ -12,7 +13,10 @@ import { postRouters } from './components/posts';
 
 const app = express();
 
-mongoose.connect(`mongodb://localhost:27017/${process.env.DB_NAME}`, { useNewUrlParser: true });
+mongoose.connect(config.get('DB_NAME'), { useNewUrlParser: true });
+mongoose.connection.on('open', () => (
+  console.log(`Connected to database ${config.get('DB_NAME')}!`)
+));
 
 /* public uploads images */
 app.use('/uploads', express.static(`${__dirname}/uploads`));
