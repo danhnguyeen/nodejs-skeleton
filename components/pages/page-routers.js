@@ -10,7 +10,7 @@ router.get('/', pageController.fetchAll);
 
 router.get('/:id', validateObjectId, pageController.fetchById);
 
-router.post('/', pageController.create);
+router.post('/', auth, pageController.create);
 
 router.patch('/:id', auth, pageController.update);
 

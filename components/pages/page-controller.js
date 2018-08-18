@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import mongoose from 'mongoose';
 
 import { Page, validate } from './page-model';
 
@@ -21,26 +20,9 @@ exports.create = async (req, res) => {
   if (error) {
     return res.status(400).send(error.details);
   }
-  const session = await mongoose.startSession();
-  session.startTransaction();
-  try {
-    const opts = { session, new: true };
-    const page = new Page(_.pick(req.body, ['title', 'content']));
-    const doc = await page.save(opts);
-    doc.$session();
-    const pageaa = new Page({
-      // title: 'aaaa',
-      content: 'bbb'
-    });
-    await pageaa.save(opts);
-    await session.commitTransaction();
-    session.endSession();
-    res.send(doc);
-  } catch (e) {
-    await session.abortTransaction();
-    session.endSession();
-    throw e;
-  }
+  const page = new Page(_.pick(req.body, ['title', 'content']));
+  const doc = await page.save();
+  res.send(doc);
 };
 
 exports.update = async (req, res) => {
