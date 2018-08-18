@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import config from 'config';
+import jwt from 'jsonwebtoken';
 
 const userSchema = mongoose.Schema({
   email: {
@@ -26,6 +28,18 @@ const userSchema = mongoose.Schema({
 //     res(false);
 //   }
 // }, 'This email address is already registered');
+
+userSchema.statics.generateAuthToken = (doc) => {
+  const token = jwt.sign(
+    {
+      email: doc.email,
+      id: doc._id
+    },
+    config.get('JWT_KEY'),
+    { expiresIn: '1d' }
+  );
+  return token;
+};
 
 userSchema.post('save', (error, doc, next) => {
   if (error && error.name === 'MongoError' && error.code === 11000) {
@@ -65,4 +79,6 @@ userSchema.statics.findByCredenticals = function (email, password) {
   });
 };
 
-module.exports = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
+
+exports.User = User;

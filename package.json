@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "test": "jest",
-        "test-watch": "jest --watchAll",
+        "test-watch": "jest --watchAll --verbose",
         "start": "nodemon server.js --exec babel-node",
         "build": "babel -d dist"
     },
@@ -17,6 +17,7 @@
         "config": "^2.0.1",
         "express": "^4.16.3",
         "express-async-errors": "^3.0.0",
+        "joi": "^13.6.0",
         "jsonwebtoken": "^8.3.0",
         "lodash": "^4.17.10",
         "mongoose": "^5.2.1",

@@ -1,5 +1,6 @@
 import express from 'express';
 
+import auth from '../middleware/authenticate';
 import validateObjectId from '../middleware/validate-objectId';
 import pageController from './page-controller';
 
@@ -11,8 +12,8 @@ router.get('/:id', validateObjectId, pageController.fetchById);
 
 router.post('/', pageController.create);
 
-router.patch('/:id', pageController.update);
+router.patch('/:id', auth, pageController.update);
 
-router.delete('/:id', pageController.delete);
+router.delete('/:id', auth, pageController.delete);
 
 module.exports = router;

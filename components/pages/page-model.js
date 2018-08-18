@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import Joi from 'joi';
 
 const pageSchema = mongoose.Schema({
   title: {
@@ -12,4 +13,15 @@ const pageSchema = mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Page', pageSchema);
+const Page = mongoose.model('Page', pageSchema);
+
+const validate = (page) => {
+  const schema = {
+    title: Joi.string().required().label('Title'),
+    content: Joi.string().label('Content')
+  };
+  return Joi.validate(page, schema, { abortEarly: false });
+};
+
+exports.Page = Page;
+exports.validate = validate;
