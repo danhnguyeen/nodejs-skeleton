@@ -6,11 +6,16 @@ import { User } from '../../components/users'
 
 let server;
 describe('auth middleware', () => {
-  beforeEach( () => server = require('../../server'));
+  beforeEach( async () => {
+    server = await require('../../server');
+  });
   afterEach( async () => {
     await Page.remove({});
-    server.close();
   });
+  afterAll( async () => {
+    await server.close();
+  });
+  
   let token;
   beforeEach(() => {
     token = User.generateAuthToken({ _id: 1, email: 'test' });

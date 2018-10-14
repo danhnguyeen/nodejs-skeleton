@@ -5,30 +5,34 @@ import { Page } from '../../components/pages'
 import { User } from '../../components/users'
 
 let server;
-describe('/pages', () => {
-  beforeEach(() => server = require('../../server'));
+describe('/pages', async () => {
+  beforeEach( async () => {
+    server = await require('../../server');
+  });
   afterEach( async () => {
     await Page.remove({});
-    server.close();
   });
-  
-  describe('GET /', () => {
+  afterAll( async () => {
+    await server.close();
+  });
+
+  describe('GET /', async () => {
     it('should return all pages', async () => {
       const pages = [
         { title: 'Page 1', content: 'Page content 1' },
         { title: 'Page 2', content: 'Page content 2' }
       ];
-      await Page.collection.insertMany(pages);
+      await Page.insertMany(pages);
       const res = await request(server).get('/pages');
       expect(res.status).toBe(200);
       expect(res.body.length).toBe(2);
     });
   });
 
-  describe('GET /:id', () => {
+  describe('GET /:id', async () => {
     it('should return a page', async () => {
       const doc = new Page({
-        title: 'Title 1 aaa',
+        title: 'Title 1 bbb',
         content: 'Page content 1'
       });
       await doc.save();
@@ -41,8 +45,8 @@ describe('/pages', () => {
       expect(res.status).toBe(404);
     });
   });
-
-  describe('POST /', () => {
+  
+  describe('POST /', async () => {
     let token;
     let page;
     beforeEach(() => {
@@ -50,7 +54,7 @@ describe('/pages', () => {
       page = {
         title: 'Test title',
         content: 'Test content'
-      }
+      };
     });
     const exec = async () => {
       return await request(server)
